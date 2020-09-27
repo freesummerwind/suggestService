@@ -16,18 +16,17 @@ using echo::HelloRequest;
 using echo::HelloResponse;
 using echo::Echo;
 
-// Logic and data behind the server's behavior.
 class EchoServiceImpl final : public Echo::Service {
-  Status SayHello(ServerContext* context, const HelloRequest* request,
+  Status Hello(ServerContext* context, const HelloRequest* request,
                   HelloResponse* response) override {
     std::string prefix("Hello ");
-    response->set_message(prefix + request-data());
+    response->set_data(prefix + request->data());
     return Status::OK;
   }
 };
 
 void RunServer() {
-  std::string server_address("0.0.0.0:50051");
+  std::string server_address("0.0.0.0:9090");
   EchoServiceImpl service;
 
   grpc::EnableDefaultHealthCheckService(true);
