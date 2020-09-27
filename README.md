@@ -48,7 +48,6 @@ go build main.go
 ./main
 Server listening on 0.0.0.0:8080
 ```
-```
 
 ```sh
 # build and run gRPC server
