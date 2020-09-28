@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"net/http"
 
 	"github.com/golang/glog"
@@ -33,7 +34,9 @@ func run() error {
 	}
 
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
-	return http.ListenAndServe(":8080", mux)
+	serverAddress := "0.0.0.0:8080"
+	fmt.Printf("Server listening on %s\n", serverAddress)
+	return http.ListenAndServe(serverAddress, mux)
 }
 
 func main() {

@@ -80,13 +80,13 @@ add_custom_command(
         ${PROTO_FILES}
       DEPENDS ${PROTO_FILES})
 
-add_executable(echoservice
+add_executable(grpc_service
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
   ${PROTO_GENERATED_SOURCES}
   ${PROTO_GENERATED_GRPC_SOURCES})
 
-target_include_directories(echoservice PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+target_include_directories(grpc_service PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 
-target_link_libraries(echoservice
+target_link_libraries(grpc_service
   gRPC::grpc++ gRPC::grpc++_reflection
   protobuf::libprotobuf)

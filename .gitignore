@@ -35,3 +35,5 @@ _logs
 _builds
 
 .idea
+pkg
+gateway
