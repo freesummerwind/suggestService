@@ -29,8 +29,11 @@ $ curl --header "Content-Type: application/json" \
 
 ## Задание
 
-0. Создать директорию `go/src/github.com/<group-repo>/` и
-склонировать в нее данный репозиторий, после запустить `make config`
+0. Создать директорию `go/src/github.com/<group-repo>/` и </br>
+склонировать в нее данный репозиторий, изменив в файле **gateway.go**</br>
+`github.com/bmstu-iu8-cpp-sem-3/lab-07-grpc/pkg/echo` на </br>
+`github.com/<group-repo>/<repo-name>/pkg/echo`
+
 
 1. Изменить спецификацию **protos/echo.proto**
 2. Изменить код обработчика в **sources/main.cpp**
