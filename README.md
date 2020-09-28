@@ -42,5 +42,5 @@ $ curl --header "Content-Type: application/json" \
 
 ## Links
 
-[Protobuf](https://developers.google.com/protocol-buffers/docs/overview)
-[gRPC gateway](https://github.com/grpc-ecosystem/grpc-gateway)
+- [Protobuf](https://developers.google.com/protocol-buffers/docs/overview)
+- [gRPC gateway](https://github.com/grpc-ecosystem/grpc-gateway)
