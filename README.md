@@ -1,6 +1,6 @@
 # Лабораторная работа №7
 
-## Задание
+## Иллюстрация
 
 ```sh
 $ make
@@ -26,6 +26,16 @@ $ curl --header "Content-Type: application/json" \
   "data": "Hello world"
 }
 ```
+
+## Задание
+
+0. Создать директорию `go/src/github.com/<group-repo>/` и
+склонировать в нее данный репозиторий, после запустить `make config`
+
+1. Изменить спецификацию **protos/echo.proto**
+2. Изменить код обработчика в **sources/main.cpp**
+3. Проверить работособность с помощью **curl**
+ 
 
 ## Links
 
