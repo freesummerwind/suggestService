@@ -24,6 +24,7 @@ $ curl --header "Content-Type: application/json" \
 }
   ' \
   http://localhost:8080/v1/hello
+
 {
   "data": "Hello world"
 }
