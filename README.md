@@ -83,7 +83,7 @@ $ curl --header "Content-Type: application/json" \
   {
     "id": "hel",
     "name": "helm",
-    "cost": 200,
+    "cost": 200
   }
 ]
 ```
