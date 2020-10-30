@@ -30,6 +30,14 @@ $ curl --header "Content-Type: application/json" \
 }
 ```
 
+```sh
+# send request to gRPC server
+$ grpc_cli ls 0.0.0.0:9090
+$ grpc_cli ls 0.0.0.0:9090 echo.Echo -l
+$ grpc_cli call 0.0.0.0:9090 echo.Echo.Hello "data: 'world'"
+# build grpc_cli see: https://github.com/grpc/grpc/blob/master/doc/command_line_tool.md
+```
+
 ## Задание
 
 Реализовать **suggest** сервис, обрабатывающий **POST** запрос по следующему **URL**: `/v1/api/suggest`.</br>
