@@ -119,16 +119,17 @@ GRPC_CPP_PLUGIN_EXISTS := $(shell PATH=$PATH:$HOME/bin which grpc_cpp_plugin 2> 
 .PHONY: .install-cpp-deps
 .install-cpp-deps:
 ifndef GRPC_CPP_PLUGIN_EXISTS
-		git clone https://github.com/grpc/grpc --recursive
-		cd grpc
-		mkdir -p cmake/build
-		pushd cmake/build
-		cmake ../..
-		make
-		mkdir $(HOME)/bin
-		cp grpc_cpp_plugin $(HOME)/bin
-		popd && cd ..
-		rm -rf grpc)
+	rm -rf grpc && \
+	git clone https://github.com/grpc/grpc --recursive && \
+	cd grpc && \
+	mkdir -p cmake/build && \
+	cd cmake/build && \
+	cmake ../.. && \
+	make && \
+	mkdir $(HOME)/bin && \
+	cp grpc_cpp_plugin $(HOME)/bin && \
+	cd ../../.. && \
+	rm -rf grpc
 endif
 
 .PHONY: config
