@@ -94,11 +94,11 @@ install-go-deps: install-golang .install-go-deps
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
 
 .PHONY: install-cpp-deps
-install-cpp-deps: install-git install-cmake #.install-cpp-deps
+install-cpp-deps: install-git install-cmake .install-cpp-deps
 
 .PHONY: install-brew
 install-brew:
-	which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+	which brew || /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
 .PHONY: install-git
 install-git: install-brew .install-git
