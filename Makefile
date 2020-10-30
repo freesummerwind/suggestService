@@ -88,6 +88,7 @@ install-go-deps: install-golang .install-go-deps
 
 .PHONY: .install-go-deps
 .install-go-deps:
+	ls go.mod || go mod init
 	go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 	go get -u github.com/golang/protobuf/{proto,protoc-gen-go}
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
