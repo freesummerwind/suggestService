@@ -102,6 +102,17 @@ $ curl --header "Content-Type: application/json" \
 3. Изменить спецификацию **protos/echo.proto**
 4. Изменить код обработчика в **sources/main.cpp**
 5. Проверить работособность с помощью **curl** (пример смотри в секции **Иллюстрация**)
+
+```proto
+message Suggest {
+  string text = 1;
+  uint32 position = 2;
+}
+
+message SuggestResponse {
+  repeated Suggest suggestions = 1;
+}
+```
  
 ## Links
 
