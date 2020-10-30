@@ -126,7 +126,7 @@ ifndef GRPC_CPP_PLUGIN_EXISTS
 	cd cmake/build && \
 	cmake ../.. && \
 	make && \
-	mkdir $(HOME)/bin && \
+	mkdir -p $(HOME)/bin && \
 	cp grpc_cpp_plugin $(HOME)/bin && \
 	cd ../../.. && \
 	rm -rf grpc
