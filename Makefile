@@ -114,7 +114,7 @@ install-cmake: install-brew .install-cmake
 .install-cmake:
 	which cmake || brew install cmake
 
-GRPC_CPP_PLUGIN_EXISTS := $(shell PATH=$PATH:$HOME/bin which grpc_cpp_plugin 2> /dev/null)
+GRPC_CPP_PLUGIN_EXISTS := $(shell PATH=$$PATH:$$HOME/bin which grpc_cpp_plugin 2> /dev/null)
 
 .PHONY: .install-cpp-deps
 .install-cpp-deps:
