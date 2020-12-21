@@ -14,8 +14,8 @@ set(
 include("tools/gate/cmake/HunterGate.cmake")
 
 HunterGate(
-  URL "https://github.com/cpp-pm/hunter/archive/v0.23.218.tar.gz"
-  SHA1 "9a3594a61227967fb92159339ba326701b287b19"
+  URL "https://github.com/cpp-pm/hunter/archive/v0.23.278.tar.gz"
+  SHA1 "35fa55bc1dfcf9f4d7264f8bb26cd1759ce1ae07"
 )
 
 project(echoservice)
@@ -32,40 +32,43 @@ find_package(gRPC CONFIG REQUIRED)
 hunter_add_package(Protobuf)
 find_package(Protobuf CONFIG REQUIRED)
 
+set(API_GENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ccpkg)
+
 set(PROTO_GENERATED_SOURCES
-  "${CMAKE_CURRENT_BINARY_DIR}/echo.pb.cc"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/api/annotations.pb.cc"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/api/http.pb.cc"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/rpc/status.pb.cc")
+  "${API_GENERATED_DIR}/echo.pb.cc"
+  "${API_GENERATED_DIR}/google/api/annotations.pb.cc"
+  "${API_GENERATED_DIR}/google/api/http.pb.cc"
+  "${API_GENERATED_DIR}/google/rpc/status.pb.cc")
 
 set(PROTO_GENERATED_HEADERS
-  "${CMAKE_CURRENT_BINARY_DIR}/echo.pb.h"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/api/annotations.pb.h"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/api/http.pb.h"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/rpc/status.pb.h")
+  "${API_GENERATED_DIR}/echo.pb.h"
+  "${API_GENERATED_DIR}/google/api/annotations.pb.h"
+  "${API_GENERATED_DIR}/google/api/http.pb.h"
+  "${API_GENERATED_DIR}/google/rpc/status.pb.h")
 
 set(PROTO_GENERATED_GRPC_SOURCES
-  "${CMAKE_CURRENT_BINARY_DIR}/echo.grpc.pb.cc"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/api/annotations.grpc.pb.cc"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/api/http.grpc.pb.cc"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/rpc/status.grpc.pb.cc")
+  "${API_GENERATED_DIR}/echo.grpc.pb.cc"
+  "${API_GENERATED_DIR}/google/api/annotations.grpc.pb.cc"
+  "${API_GENERATED_DIR}/google/api/http.grpc.pb.cc"
+  "${API_GENERATED_DIR}/google/rpc/status.grpc.pb.cc")
 
 set(PROTO_GENERATED_GRPC_HEADERS
-  "${CMAKE_CURRENT_BINARY_DIR}/echo.grpc.pb.h"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/api/annotations.grpc.pb.h"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/api/http.grpc.pb.h"
-  "${CMAKE_CURRENT_BINARY_DIR}/google/rpc/status.grpc.pb.h")
+  "${API_GENERATED_DIR}/echo.grpc.pb.h"
+  "${API_GENERATED_DIR}/google/api/annotations.grpc.pb.h"
+  "${API_GENERATED_DIR}/google/api/http.grpc.pb.h"
+  "${API_GENERATED_DIR}/google/rpc/status.grpc.pb.h")
 
 find_program(PROTOBUF_PROTOC protoc)
 find_program(GRPC_CPP_PLUGIN_EXECUTABLE grpc_cpp_plugin)
 
-set(PROTO_FILES
-  "${CMAKE_CURRENT_SOURCE_DIR}/protos/echo.proto"
-  "${CMAKE_CURRENT_SOURCE_DIR}/protos/google/api/annotations.proto"
-  "${CMAKE_CURRENT_SOURCE_DIR}/protos/google/api/http.proto"
-  "${CMAKE_CURRENT_SOURCE_DIR}/protos/google/rpc/status.proto")
-
 set(PROTO_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/protos")
+
+set(PROTO_FILES
+  "${PROTO_INCLUDE_DIR}/echo.proto"
+  "${PROTO_INCLUDE_DIR}/google/api/annotations.proto"
+  "${PROTO_INCLUDE_DIR}/google/api/http.proto"
+  "${PROTO_INCLUDE_DIR}/google/rpc/status.proto")
+
 add_custom_command(
       OUTPUT  ${PROTO_GENERATED_SOURCES}
               ${PROTO_GENERATED_HEADERS}
@@ -73,8 +76,8 @@ add_custom_command(
               ${PROTO_GENERATED_GRPC_HEADERS}
       COMMAND protobuf::protoc
       ARGS
-        --grpc_out "${CMAKE_CURRENT_BINARY_DIR}"
-        --cpp_out "${CMAKE_CURRENT_BINARY_DIR}"
+        --grpc_out "${API_GENERATED_DIR}"
+        --cpp_out "${API_GENERATED_DIR}"
         -I"${PROTO_INCLUDE_DIR}"
         --plugin=protoc-gen-grpc="${GRPC_CPP_PLUGIN_EXECUTABLE}"
         ${PROTO_FILES}
@@ -85,7 +88,7 @@ add_executable(grpc_service
   ${PROTO_GENERATED_SOURCES}
   ${PROTO_GENERATED_GRPC_SOURCES})
 
-target_include_directories(grpc_service PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+target_include_directories(grpc_service PRIVATE "${API_GENERATED_DIR}")
 
 target_link_libraries(grpc_service
   gRPC::grpc++ gRPC::grpc++_reflection
