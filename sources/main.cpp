@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -6,6 +5,7 @@
 #include <string>
 #include <shared_mutex>
 #include <thread>
+#include <set>
 
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/health_check_service_interface.h>
@@ -30,57 +30,71 @@ struct Suggestion {
     int cost = 0;
 };
 
-void from_json(const nlohmann::json& j, Suggest& s) {
-    s.set_text(j.at("name").get<std::string>());
-    s.set_position(j.at("cost").get<uint>());
+bool operator< (const Suggestion& lhs, const Suggestion& rhs) {
+    return (lhs.cost < rhs.cost) ||
+           (lhs.cost == rhs.cost && lhs.id < rhs.id) ||
+           (lhs.cost == rhs.cost && lhs.id == rhs.id && lhs.name < rhs.name);
 }
 
-class suggestServiceImpl final : public suggestService::Service {
+void from_json(const nlohmann::json& j, Suggestion& s) {
+    j.at("id").get_to(s.id);
+    j.at("name").get_to(s.name);
+    j.at("cost").get_to(s.cost);
+}
+
+class SuggestServiceImpl final : public suggestService::Service {
 public:
-    void upgradeVariants() {
-        std::ifstream file;
-        while(true) {
-            file.open("../suggestions.json");
-            std::shared_lock <std::shared_mutex> lock(mutex);
-            file >> variants;
-            lock.unlock();
-            file.close();
-            std::this_thread::sleep_for(std::chrono::minutes(15));
-        }
+    SuggestServiceImpl(const std::string& filename = "suggestions.json",
+                       const int duration = 15) {
+        std::thread upgrade(&SuggestServiceImpl::upgradeVariants, this, filename, duration);
+        upgrade.detach();
     }
 
 private:
   Status Query(ServerContext* context, const SuggestRequest* request,
                SuggestResponse* response) override {
-    std::thread upgrade(&upgradeVariants, this);
-    upgrade.detach();
     google::protobuf::RepeatedPtrField<Suggest> goodVariants;
     std::shared_lock<std::shared_mutex> lock(mutex);
-    goodVariants.Reserve(variants.size());
+    int position = 0;
     for (const auto& variant : variants) {
-        if (variant.at("id").get<std::string>() == request->query()) {
-            goodVariants.Add(variant.get<Suggest>());
+        if (variant.id == request->query()) {
+            Suggest suggest;
+            suggest.set_text(variant.name);
+            suggest.set_position(position);
+            ++position;
+            goodVariants.Add(suggest);
         }
     }
     lock.unlock();
-    std::sort(goodVariants.begin(), goodVariants.end(),
-            [](const Suggest& lhs, const Suggest& rhs) -> bool {
-        return lhs.position() < rhs.position();
-    });
-    for (size_t i = 0; i < goodVariants.size(); ++i) {
-        goodVariants[i].set_position(i);
-    }
-      *response->mutable_suggest_answer() = goodVariants;
+    *response->mutable_suggest_answer() = goodVariants;
     return Status::OK;
   }
 
-  nlohmann::json variants;
+  void upgradeVariants(const std::string& filename, const int duration) {
+      while(true) {
+          std::unique_lock<std::shared_mutex> lock(mutex);
+          std::ifstream file{filename};
+          if (!file) {
+              throw std::runtime_error{"unable to open json: " + filename};
+          }
+          nlohmann::json suggests;
+          file >> suggests;
+          file.close();
+          for (const auto& item : suggests) {
+              variants.insert(Suggestion(item));
+          }
+          lock.unlock();
+          std::this_thread::sleep_for(std::chrono::minutes(duration));
+      }
+  }
+
+  std::set<Suggestion> variants;
   std::shared_mutex mutex;
 };
 
 void RunServer() {
   std::string server_address("0.0.0.0:9090");
-  suggestServiceImpl service;
+  SuggestServiceImpl service;
 
   grpc::EnableDefaultHealthCheckService(true);
   grpc::reflection::InitProtoReflectionServerBuilderPlugin();
@@ -99,7 +113,31 @@ void RunServer() {
   server->Wait();
 }
 
+void makeSuggestionsJson() {
+    std::string json = R"([
+  {
+    "id": "hel",
+    "name": "hello world",
+    "cost": 70
+  },
+  {
+    "id": "hel",
+    "name": "hello",
+    "cost": 10
+  },
+  {
+    "id": "hel",
+    "name": "helm",
+    "cost": 200
+  }
+])";
+    std::ofstream fout{"suggestions.json"};
+    fout << json;
+    fout.close();
+}
+
 int main(int argc, char** argv) {
+  makeSuggestionsJson();
   RunServer();
 
   return 0;
