@@ -32,28 +32,31 @@ find_package(gRPC CONFIG REQUIRED)
 hunter_add_package(Protobuf)
 find_package(Protobuf CONFIG REQUIRED)
 
+hunter_add_package(nlohmann_json)
+find_package(nlohmann_json CONFIG REQUIRED)
+
 set(API_GENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ccpkg)
 
 set(PROTO_GENERATED_SOURCES
-  "${API_GENERATED_DIR}/echo.pb.cc"
+  "${API_GENERATED_DIR}/suggestService.pb.cc"
   "${API_GENERATED_DIR}/google/api/annotations.pb.cc"
   "${API_GENERATED_DIR}/google/api/http.pb.cc"
   "${API_GENERATED_DIR}/google/rpc/status.pb.cc")
 
 set(PROTO_GENERATED_HEADERS
-  "${API_GENERATED_DIR}/echo.pb.h"
+  "${API_GENERATED_DIR}/suggestService.pb.h"
   "${API_GENERATED_DIR}/google/api/annotations.pb.h"
   "${API_GENERATED_DIR}/google/api/http.pb.h"
   "${API_GENERATED_DIR}/google/rpc/status.pb.h")
 
 set(PROTO_GENERATED_GRPC_SOURCES
-  "${API_GENERATED_DIR}/echo.grpc.pb.cc"
+  "${API_GENERATED_DIR}/suggestService.grpc.pb.cc"
   "${API_GENERATED_DIR}/google/api/annotations.grpc.pb.cc"
   "${API_GENERATED_DIR}/google/api/http.grpc.pb.cc"
   "${API_GENERATED_DIR}/google/rpc/status.grpc.pb.cc")
 
 set(PROTO_GENERATED_GRPC_HEADERS
-  "${API_GENERATED_DIR}/echo.grpc.pb.h"
+  "${API_GENERATED_DIR}/suggestService.grpc.pb.h"
   "${API_GENERATED_DIR}/google/api/annotations.grpc.pb.h"
   "${API_GENERATED_DIR}/google/api/http.grpc.pb.h"
   "${API_GENERATED_DIR}/google/rpc/status.grpc.pb.h")
@@ -64,7 +67,7 @@ find_program(GRPC_CPP_PLUGIN_EXECUTABLE grpc_cpp_plugin)
 set(PROTO_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/protos")
 
 set(PROTO_FILES
-  "${PROTO_INCLUDE_DIR}/echo.proto"
+  "${PROTO_INCLUDE_DIR}/suggestService.proto"
   "${PROTO_INCLUDE_DIR}/google/api/annotations.proto"
   "${PROTO_INCLUDE_DIR}/google/api/http.proto"
   "${PROTO_INCLUDE_DIR}/google/rpc/status.proto")
@@ -92,4 +95,6 @@ target_include_directories(grpc_service PRIVATE "${API_GENERATED_DIR}")
 
 target_link_libraries(grpc_service
   gRPC::grpc++ gRPC::grpc++_reflection
-  protobuf::libprotobuf)
+  protobuf::libprotobuf
+  nlohmann_json::nlohmann_json
+)

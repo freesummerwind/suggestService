@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package suggestService;
+
+import "google/api/annotations.proto";
+
+service SuggestService {
+  rpc Hello(SuggestRequest) returns (SuggestResponse) {
+    option (google.api.http) = {
+      post: "/v1/api/suggest"
+      body: "*"
+    };
+  }
+}
+
+message SuggestRequest {
+  string query = 1;
+}
+
+message Suggest {
+  string text = 1;
+  uint32 position = 2;
+}
+
+message SuggestResponse {
+  repeated Suggest suggestions = 1;
+}
