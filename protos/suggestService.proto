@@ -5,7 +5,7 @@ package suggestService;
 import "google/api/annotations.proto";
 
 service SuggestService {
-  rpc Hello(SuggestRequest) returns (SuggestResponse) {
+  rpc Query(SuggestRequest) returns (SuggestResponse) {
     option (google.api.http) = {
       post: "/v1/api/suggest"
       body: "*"

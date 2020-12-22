@@ -36,21 +36,21 @@ class SuggestService final {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    virtual ::grpc::Status Hello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::suggestService::SuggestResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>> AsyncHello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>>(AsyncHelloRaw(context, request, cq));
+    virtual ::grpc::Status Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::suggestService::SuggestResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>> AsyncQuery(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>>(AsyncQueryRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>> PrepareAsyncHello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>>(PrepareAsyncHelloRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>> PrepareAsyncQuery(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>>(PrepareAsyncQueryRaw(context, request, cq));
     }
     class experimental_async_interface {
      public:
       virtual ~experimental_async_interface() {}
-      virtual void Hello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, std::function<void(::grpc::Status)>) = 0;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void Hello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
-      virtual void Hello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
     };
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -61,27 +61,27 @@ class SuggestService final {
     #endif
     virtual class experimental_async_interface* experimental_async() { return nullptr; }
   private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>* AsyncHelloRaw(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>* PrepareAsyncHelloRaw(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>* AsyncQueryRaw(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::suggestService::SuggestResponse>* PrepareAsyncQueryRaw(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
-    ::grpc::Status Hello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::suggestService::SuggestResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>> AsyncHello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>>(AsyncHelloRaw(context, request, cq));
+    ::grpc::Status Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::suggestService::SuggestResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>> AsyncQuery(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>>(AsyncQueryRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>> PrepareAsyncHello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>>(PrepareAsyncHelloRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>> PrepareAsyncQuery(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>>(PrepareAsyncQueryRaw(context, request, cq));
     }
     class experimental_async final :
       public StubInterface::experimental_async_interface {
      public:
-      void Hello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, std::function<void(::grpc::Status)>) override;
+      void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void Hello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       #else
-      void Hello(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
      private:
       friend class Stub;
@@ -94,9 +94,9 @@ class SuggestService final {
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     class experimental_async async_stub_{this};
-    ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>* AsyncHelloRaw(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>* PrepareAsyncHelloRaw(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) override;
-    const ::grpc::internal::RpcMethod rpcmethod_Hello_;
+    ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>* AsyncQueryRaw(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>* PrepareAsyncQueryRaw(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) override;
+    const ::grpc::internal::RpcMethod rpcmethod_Query_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -104,35 +104,35 @@ class SuggestService final {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status Hello(::grpc::ServerContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response);
+    virtual ::grpc::Status Query(::grpc::ServerContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response);
   };
   template <class BaseClass>
-  class WithAsyncMethod_Hello : public BaseClass {
+  class WithAsyncMethod_Query : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithAsyncMethod_Hello() {
+    WithAsyncMethod_Query() {
       ::grpc::Service::MarkMethodAsync(0);
     }
-    ~WithAsyncMethod_Hello() override {
+    ~WithAsyncMethod_Query() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Hello(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
+    ::grpc::Status Query(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestHello(::grpc::ServerContext* context, ::suggestService::SuggestRequest* request, ::grpc::ServerAsyncResponseWriter< ::suggestService::SuggestResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestQuery(::grpc::ServerContext* context, ::suggestService::SuggestRequest* request, ::grpc::ServerAsyncResponseWriter< ::suggestService::SuggestResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_Hello<Service > AsyncService;
+  typedef WithAsyncMethod_Query<Service > AsyncService;
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_Hello : public BaseClass {
+  class ExperimentalWithCallbackMethod_Query : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_Hello() {
+    ExperimentalWithCallbackMethod_Query() {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       ::grpc::Service::
     #else
@@ -146,8 +146,8 @@ class SuggestService final {
     #else
                    ::grpc::experimental::CallbackServerContext*
     #endif
-                     context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response) { return this->Hello(context, request, response); }));}
-    void SetMessageAllocatorFor_Hello(
+                     context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response) { return this->Query(context, request, response); }));}
+    void SetMessageAllocatorFor_Query(
         ::grpc::experimental::MessageAllocator< ::suggestService::SuggestRequest, ::suggestService::SuggestResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
@@ -157,71 +157,71 @@ class SuggestService final {
       static_cast<::grpc::internal::CallbackUnaryHandler< ::suggestService::SuggestRequest, ::suggestService::SuggestResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_Hello() override {
+    ~ExperimentalWithCallbackMethod_Query() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Hello(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
+    ::grpc::Status Query(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* Hello(
+    virtual ::grpc::ServerUnaryReactor* Query(
       ::grpc::CallbackServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/)
     #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Hello(
+    virtual ::grpc::experimental::ServerUnaryReactor* Query(
       ::grpc::experimental::CallbackServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/)
     #endif
       { return nullptr; }
   };
   #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_Hello<Service > CallbackService;
+  typedef ExperimentalWithCallbackMethod_Query<Service > CallbackService;
   #endif
 
-  typedef ExperimentalWithCallbackMethod_Hello<Service > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_Query<Service > ExperimentalCallbackService;
   template <class BaseClass>
-  class WithGenericMethod_Hello : public BaseClass {
+  class WithGenericMethod_Query : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithGenericMethod_Hello() {
+    WithGenericMethod_Query() {
       ::grpc::Service::MarkMethodGeneric(0);
     }
-    ~WithGenericMethod_Hello() override {
+    ~WithGenericMethod_Query() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Hello(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
+    ::grpc::Status Query(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
   };
   template <class BaseClass>
-  class WithRawMethod_Hello : public BaseClass {
+  class WithRawMethod_Query : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawMethod_Hello() {
+    WithRawMethod_Query() {
       ::grpc::Service::MarkMethodRaw(0);
     }
-    ~WithRawMethod_Hello() override {
+    ~WithRawMethod_Query() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Hello(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
+    ::grpc::Status Query(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestHello(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestQuery(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_Hello : public BaseClass {
+  class ExperimentalWithRawCallbackMethod_Query : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_Hello() {
+    ExperimentalWithRawCallbackMethod_Query() {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       ::grpc::Service::
     #else
@@ -235,55 +235,55 @@ class SuggestService final {
     #else
                    ::grpc::experimental::CallbackServerContext*
     #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Hello(context, request, response); }));
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Query(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_Hello() override {
+    ~ExperimentalWithRawCallbackMethod_Query() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Hello(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
+    ::grpc::Status Query(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* Hello(
+    virtual ::grpc::ServerUnaryReactor* Query(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
     #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Hello(
+    virtual ::grpc::experimental::ServerUnaryReactor* Query(
       ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
     #endif
       { return nullptr; }
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_Hello : public BaseClass {
+  class WithStreamedUnaryMethod_Query : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_Hello() {
+    WithStreamedUnaryMethod_Query() {
       ::grpc::Service::MarkMethodStreamed(0,
         new ::grpc::internal::StreamedUnaryHandler<
           ::suggestService::SuggestRequest, ::suggestService::SuggestResponse>(
             [this](::grpc::ServerContext* context,
                    ::grpc::ServerUnaryStreamer<
                      ::suggestService::SuggestRequest, ::suggestService::SuggestResponse>* streamer) {
-                       return this->StreamedHello(context,
+                       return this->StreamedQuery(context,
                          streamer);
                   }));
     }
-    ~WithStreamedUnaryMethod_Hello() override {
+    ~WithStreamedUnaryMethod_Query() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status Hello(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
+    ::grpc::Status Query(::grpc::ServerContext* /*context*/, const ::suggestService::SuggestRequest* /*request*/, ::suggestService::SuggestResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedHello(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::suggestService::SuggestRequest,::suggestService::SuggestResponse>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedQuery(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::suggestService::SuggestRequest,::suggestService::SuggestResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_Hello<Service > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_Query<Service > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_Hello<Service > StreamedService;
+  typedef WithStreamedUnaryMethod_Query<Service > StreamedService;
 };
 
 }  // namespace suggestService

@@ -115,7 +115,7 @@ const char descriptor_table_protodef_suggestService_2eproto[] PROTOBUF_SECTION_V
   "equest\022\r\n\005query\030\001 \001(\t\")\n\007Suggest\022\014\n\004text"
   "\030\001 \001(\t\022\020\n\010position\030\002 \001(\r\"\?\n\017SuggestRespo"
   "nse\022,\n\013suggestions\030\001 \003(\0132\027.suggestServic"
-  "e.Suggest2v\n\016SuggestService\022d\n\005Hello\022\036.s"
+  "e.Suggest2v\n\016SuggestService\022d\n\005Query\022\036.s"
   "uggestService.SuggestRequest\032\037.suggestSe"
   "rvice.SuggestResponse\"\032\202\323\344\223\002\024\"\017/v1/api/s"
   "uggest:\001*b\006proto3"
