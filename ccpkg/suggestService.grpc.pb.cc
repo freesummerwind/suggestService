@@ -36,35 +36,40 @@ SuggestService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& cha
   {}
 
 ::grpc::Status SuggestService::Stub::Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::suggestService::SuggestResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::suggestService::SuggestRequest, ::suggestService::SuggestResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Query_, context, request, response);
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_Query_, context, request, response);
 }
 
 void SuggestService::Stub::experimental_async::Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::suggestService::SuggestRequest, ::suggestService::SuggestResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Query_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_Query_, context, request, response, std::move(f));
+}
+
+void SuggestService::Stub::experimental_async::Query(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::suggestService::SuggestResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_Query_, context, request, response, std::move(f));
 }
 
 void SuggestService::Stub::experimental_async::Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Query_, context, request, response, reactor);
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_Query_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>* SuggestService::Stub::PrepareAsyncQueryRaw(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::suggestService::SuggestResponse, ::suggestService::SuggestRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Query_, context, request);
+void SuggestService::Stub::experimental_async::Query(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::suggestService::SuggestResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_Query_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>* SuggestService::Stub::AsyncQueryRaw(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncQueryRaw(context, request, cq);
-  result->StartCall();
-  return result;
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::suggestService::SuggestResponse>::Create(channel_.get(), cq, rpcmethod_Query_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::suggestService::SuggestResponse>* SuggestService::Stub::PrepareAsyncQueryRaw(::grpc::ClientContext* context, const ::suggestService::SuggestRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::suggestService::SuggestResponse>::Create(channel_.get(), cq, rpcmethod_Query_, context, request, false);
 }
 
 SuggestService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       SuggestService_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< SuggestService::Service, ::suggestService::SuggestRequest, ::suggestService::SuggestResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+      new ::grpc::internal::RpcMethodHandler< SuggestService::Service, ::suggestService::SuggestRequest, ::suggestService::SuggestResponse>(
           [](SuggestService::Service* service,
-             ::grpc::ServerContext* ctx,
+             ::grpc_impl::ServerContext* ctx,
              const ::suggestService::SuggestRequest* req,
              ::suggestService::SuggestResponse* resp) {
                return service->Query(ctx, req, resp);

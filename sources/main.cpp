@@ -20,9 +20,9 @@ using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::Status;
 using suggestService::SuggestRequest;
-using SuggestService::Suggest;
+using suggestService::Suggest;
 using suggestService::SuggestResponse;
-using suggestService::suggestService;
+using suggestService::SuggestService;
 
 struct Suggestion {
     std::string id;
@@ -42,7 +42,7 @@ void from_json(const nlohmann::json& j, Suggestion& s) {
     j.at("cost").get_to(s.cost);
 }
 
-class SuggestServiceImpl final : public suggestService::Service {
+class SuggestServiceImpl final : public SuggestService::Service {
 public:
     SuggestServiceImpl(const std::string& filename = "suggestions.json",
                        const int duration = 15) {
@@ -62,11 +62,11 @@ private:
             suggest.set_text(variant.name);
             suggest.set_position(position);
             ++position;
-            goodVariants.Add(suggest);
+            goodVariants.Add(std::move(suggest));
         }
     }
     lock.unlock();
-    *response->mutable_suggest_answer() = goodVariants;
+    *response->mutable_suggestions() = goodVariants;
     return Status::OK;
   }
 

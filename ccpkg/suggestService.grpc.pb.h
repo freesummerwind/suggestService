@@ -47,10 +47,16 @@ class SuggestService final {
      public:
       virtual ~experimental_async_interface() {}
       virtual void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void Query(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::suggestService::SuggestResponse* response, std::function<void(::grpc::Status)>) = 0;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
       virtual void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void Query(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::suggestService::SuggestResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void Query(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::suggestService::SuggestResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
     };
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -78,10 +84,16 @@ class SuggestService final {
       public StubInterface::experimental_async_interface {
      public:
       void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, std::function<void(::grpc::Status)>) override;
+      void Query(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::suggestService::SuggestResponse* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       #else
       void Query(::grpc::ClientContext* context, const ::suggestService::SuggestRequest* request, ::suggestService::SuggestResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void Query(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::suggestService::SuggestResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void Query(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::suggestService::SuggestResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
      private:
       friend class Stub;
@@ -139,7 +151,7 @@ class SuggestService final {
       ::grpc::Service::experimental().
     #endif
         MarkMethodCallback(0,
-          new ::grpc::internal::CallbackUnaryHandler< ::suggestService::SuggestRequest, ::suggestService::SuggestResponse>(
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::suggestService::SuggestRequest, ::suggestService::SuggestResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
                    ::grpc::CallbackServerContext*
@@ -154,7 +166,7 @@ class SuggestService final {
     #else
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(0);
     #endif
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::suggestService::SuggestRequest, ::suggestService::SuggestResponse>*>(handler)
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::suggestService::SuggestRequest, ::suggestService::SuggestResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_Query() override {
@@ -228,7 +240,7 @@ class SuggestService final {
       ::grpc::Service::experimental().
     #endif
         MarkMethodRawCallback(0,
-          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
                    ::grpc::CallbackServerContext*
@@ -263,8 +275,8 @@ class SuggestService final {
       ::grpc::Service::MarkMethodStreamed(0,
         new ::grpc::internal::StreamedUnaryHandler<
           ::suggestService::SuggestRequest, ::suggestService::SuggestResponse>(
-            [this](::grpc::ServerContext* context,
-                   ::grpc::ServerUnaryStreamer<
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
                      ::suggestService::SuggestRequest, ::suggestService::SuggestResponse>* streamer) {
                        return this->StreamedQuery(context,
                          streamer);
